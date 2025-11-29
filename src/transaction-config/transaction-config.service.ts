@@ -30,6 +30,7 @@ export class TransactionConfigService {
     }
     const newTx = this.transactionConfigRepo.create({
       name: configName,
+      amount:amount
     });
     return await this.transactionConfigRepo.save(newTx);
   }

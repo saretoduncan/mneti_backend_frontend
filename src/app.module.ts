@@ -8,7 +8,8 @@ import { RolesModule } from './roles/roles.module';
 import { TransactionsModule } from './transactions/transactions.module';
 import { TransactionConfigModule } from './transaction-config/transaction-config.module';
 import { WalletModule } from './wallet/wallet.module';
-
+import { DatabaseModule } from './database/database.module';
+import { SeederModule } from './seeder/seeder.module';
 
 @Global()
 @Module({
@@ -17,22 +18,14 @@ import { WalletModule } from './wallet/wallet.module';
       isGlobal: true,
       envFilePath: '.env',
     }),
-    TypeOrmModule.forRootAsync({
-      useFactory: () => {
-        return {
-          type: 'mysql',
-          url: process.env.DATABASE_URL,
-          autoLoadEntities: true,
-          synchronize: true,
-        };
-      },
-    }),
+
     UsersModule,
     RolesModule,
     TransactionsModule,
     TransactionConfigModule,
     WalletModule,
-   
+    DatabaseModule,
+    SeederModule,
   ],
   controllers: [AppController],
   providers: [AppService],

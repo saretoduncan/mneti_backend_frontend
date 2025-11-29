@@ -6,7 +6,7 @@ import {
 import { InjectRepository } from '@nestjs/typeorm';
 import { ETransactionType, Transaction } from './transactions.entity';
 import { Repository } from 'typeorm';
-import { Users } from 'src/users/user.entity';
+
 import { UserProfile } from 'src/users/userProfile.entity';
 
 @Injectable()
@@ -69,7 +69,7 @@ export class TransactionsService {
     }
     return transaction;
   }
-  //gett all transaction
+  //get all transaction
   async getAllTransactions(): Promise<Transaction[]> {
     const transactions = await this.transactionRepo.find({
       relations: {
@@ -100,5 +100,4 @@ export class TransactionsService {
       },
     });
   }
-  async getUserCommissionBalance(userProfileId: number) {}
 }

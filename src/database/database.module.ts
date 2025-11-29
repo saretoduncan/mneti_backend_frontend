@@ -1,0 +1,18 @@
+import { Module } from '@nestjs/common';
+import { TypeOrmModule } from '@nestjs/typeorm';
+
+@Module({
+  imports: [
+    TypeOrmModule.forRootAsync({
+      useFactory: () => {
+        return {
+          type: 'mysql',
+          url: process.env.DATABASE_URL,
+          autoLoadEntities: true,
+          synchronize: true,
+        };
+      },
+    }),
+  ],
+})
+export class DatabaseModule {}
