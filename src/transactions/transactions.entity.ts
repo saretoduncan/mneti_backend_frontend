@@ -16,7 +16,7 @@ export class Transaction {
   id: number;
   @Column()
   amount: number;
-  @Column()
+  @Column({ unique: true })
   mpesa_transaction_id: string;
   @Column()
   phone_number: string;
@@ -33,6 +33,7 @@ export class Transaction {
   updatedAt: Date;
 }
 
-export enum ETransactionType{
-    DEPOSIT,WITHDRAWAL
+export enum ETransactionType {
+  DEPOSIT,
+  WITHDRAWAL,
 }
