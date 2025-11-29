@@ -53,7 +53,7 @@ export class UserProfile {
   @Column({ nullable: true })
   referrerId?: number;
 
-  @OneToMany(() => Transaction, (transaction) => transaction.user)
+  @OneToMany(() => Transaction, (transaction) => transaction.userProfile)
   allTransactions: Transaction[];
 
   @CreateDateColumn({ type: 'timestamp' })

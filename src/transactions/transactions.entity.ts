@@ -23,10 +23,10 @@ export class Transaction {
   @Column()
   transaction_type: ETransactionType;
   @Column({ unique: true })
-  userId: string;
+  userProfileId: string;
   @ManyToOne(() => UserProfile, (profile) => profile.allTransactions)
-  @JoinColumn({ name: 'userId' })
-  user: UserProfile;
+  @JoinColumn({ name: 'userProfileId' })
+  userProfile: UserProfile;
   @CreateDateColumn({ type: 'timestamp' })
   createdAt: Date;
   @UpdateDateColumn({ type: 'timestamp' })

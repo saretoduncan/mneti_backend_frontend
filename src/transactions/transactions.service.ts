@@ -14,7 +14,8 @@ export class TransactionsService {
   constructor(
     @InjectRepository(Transaction)
     private readonly transactionRepo: Repository<Transaction>,
-    @InjectRepository(UserProfile) private readonly userRepo: Repository<UserProfile>
+    @InjectRepository(UserProfile)
+    private readonly userRepo: Repository<UserProfile>,
   ) {}
 
   async saveTransaction(
@@ -31,7 +32,7 @@ export class TransactionsService {
         id,
       },
       relations: {
-        user: true,
+        userProfile: true,
       },
     });
     if (!getTransaction) {
@@ -44,9 +45,9 @@ export class TransactionsService {
     userProfileId: string,
   ): Promise<Transaction> {
     const transaction = await this.transactionRepo.findOne({
-      relations: { user: true },
+      relations: { userProfile: true },
       where: {
-        userId: userProfileId,
+        userProfileId: userProfileId,
       },
     });
     if (!transaction) {
@@ -72,7 +73,7 @@ export class TransactionsService {
   async getAllTransactions(): Promise<Transaction[]> {
     const transactions = await this.transactionRepo.find({
       relations: {
-        user: true,
+        userProfile: true,
       },
     });
     return transactions;
@@ -84,7 +85,7 @@ export class TransactionsService {
         transaction_type: ETransactionType.SUBSCRIPTION,
       },
       relations: {
-        user: true,
+        userProfile: true,
       },
     });
   }
@@ -95,12 +96,9 @@ export class TransactionsService {
         transaction_type: ETransactionType.COMMISSION,
       },
       relations: {
-        user: true,
+        userProfile: true,
       },
     });
   }
-  async getUserCommissionBalance(userProfileId:number){
-    
-  }
-  
+  async getUserCommissionBalance(userProfileId: number) {}
 }
