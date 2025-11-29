@@ -7,6 +7,7 @@ import { UsersModule } from './users/users.module';
 import { RolesModule } from './roles/roles.module';
 import { TransactionsModule } from './transactions/transactions.module';
 import { TransactionConfigModule } from './transaction-config/transaction-config.module';
+import { WalletModule } from './wallet/wallet.module';
 
 
 @Global()
@@ -30,6 +31,7 @@ import { TransactionConfigModule } from './transaction-config/transaction-config
     RolesModule,
     TransactionsModule,
     TransactionConfigModule,
+    WalletModule,
    
   ],
   controllers: [AppController],

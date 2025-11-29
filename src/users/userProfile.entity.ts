@@ -12,6 +12,7 @@ import {
 } from 'typeorm';
 import { Users } from './user.entity';
 import { Transaction } from 'src/transactions/transactions.entity';
+import { Wallet } from 'src/wallet/wallet.entity';
 
 @Entity('user_profile')
 export class UserProfile {
@@ -23,7 +24,7 @@ export class UserProfile {
   lastName: string;
   @Column({ unique: true })
   email: string;
-  @Column({unique:true})
+  @Column({ unique: true })
   phone_number: string;
 
   @Column({ type: Date })
@@ -38,6 +39,9 @@ export class UserProfile {
   @OneToOne(() => Users, (user) => user.profile)
   @JoinColumn({ name: 'userId' })
   user: Users;
+
+  @OneToOne(() => Wallet, (wallet) => wallet.userProfile)
+  wallet: Wallet;
 
   @OneToMany(() => UserProfile, (profile) => profile.referredBy)
   referrals: UserProfile[];
