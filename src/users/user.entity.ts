@@ -1,14 +1,18 @@
 import { Role } from 'src/roles/roles.entity';
 import {
   Column,
+  CreateDateColumn,
   Entity,
   JoinColumn,
   JoinTable,
   ManyToMany,
+  OneToMany,
   OneToOne,
   PrimaryGeneratedColumn,
+  UpdateDateColumn,
 } from 'typeorm';
 import { UserProfile } from './userProfile.entity';
+import { Transaction } from 'src/transactions/transactions.entity';
 
 @Entity({ name: 'users' })
 export class Users {
@@ -25,5 +29,11 @@ export class Users {
   @ManyToMany(() => Role, (role) => role.users, { cascade: true })
   @JoinTable()
   roles: Role[];
-}
+  
 
+  @CreateDateColumn({ type: 'timestamp' })
+  createdAt: Date;
+
+  @UpdateDateColumn({ type: 'timestamp' })
+  updatedAt: Date;
+}

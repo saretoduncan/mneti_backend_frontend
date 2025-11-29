@@ -5,6 +5,7 @@ import { ConfigModule } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { UsersModule } from './users/users.module';
 import { RolesModule } from './roles/roles.module';
+import { TransactionsModule } from './transactions/transactions.module';
 
 @Global()
 @Module({
@@ -25,6 +26,7 @@ import { RolesModule } from './roles/roles.module';
     }),
     UsersModule,
     RolesModule,
+    TransactionsModule,
   ],
   controllers: [AppController],
   providers: [AppService],
