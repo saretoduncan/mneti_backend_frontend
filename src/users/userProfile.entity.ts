@@ -22,8 +22,8 @@ export class UserProfile {
   @Column()
   lastName: string;
   @Column({ unique: true })
-  email?: string;
-  @Column()
+  email: string;
+  @Column({unique:true})
   phone_number: string;
 
   @Column({ type: Date })

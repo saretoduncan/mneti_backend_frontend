@@ -20,6 +20,8 @@ export class Transaction {
   mpesa_transaction_id: string;
   @Column()
   phone_number: string;
+  @Column()
+  transaction_type: ETransactionType;
   @Column({ unique: true })
   userId: string;
   @ManyToOne(() => UserProfile, (profile) => profile.allTransactions)
@@ -29,4 +31,8 @@ export class Transaction {
   createdAt: Date;
   @UpdateDateColumn({ type: 'timestamp' })
   updatedAt: Date;
+}
+
+export enum ETransactionType{
+    DEPOSIT,WITHDRAWAL
 }
