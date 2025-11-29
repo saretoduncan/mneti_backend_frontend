@@ -34,6 +34,6 @@ export class Transaction {
 }
 
 export enum ETransactionType {
-  DEPOSIT,
-  WITHDRAWAL,
+  SUBSCRIPTION,
+  COMMISSION,
 }

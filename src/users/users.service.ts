@@ -156,4 +156,19 @@ export class UsersService {
     await this.userRepo.save(user);
     return;
   }
+  //user subscribe
+  async setIsSubscribed(userProfileId: number) {
+    const user = await this.userProfileRepo.findOne({
+      where: {
+        id: userProfileId,
+      },
+      relations: {
+        allTransactions: true,
+      },
+    });
+    if(!user){
+        throw new NotFoundException("user not found")
+    }
+   
+  }
 }

@@ -6,12 +6,15 @@ import {
 import { InjectRepository } from '@nestjs/typeorm';
 import { ETransactionType, Transaction } from './transactions.entity';
 import { Repository } from 'typeorm';
+import { Users } from 'src/users/user.entity';
+import { UserProfile } from 'src/users/userProfile.entity';
 
 @Injectable()
 export class TransactionsService {
   constructor(
     @InjectRepository(Transaction)
     private readonly transactionRepo: Repository<Transaction>,
+    @InjectRepository(UserProfile) private readonly userRepo: Repository<UserProfile>
   ) {}
 
   async saveTransaction(
@@ -75,10 +78,10 @@ export class TransactionsService {
     return transactions;
   }
   //get all Deposit transactions
-  async getAllDepositTransactions(): Promise<Transaction[]> {
+  async getAllSubscriptionTransactions(): Promise<Transaction[]> {
     return await this.transactionRepo.find({
       where: {
-        transaction_type: ETransactionType.DEPOSIT,
+        transaction_type: ETransactionType.SUBSCRIPTION,
       },
       relations: {
         user: true,
@@ -86,14 +89,18 @@ export class TransactionsService {
     });
   }
   //get all withdrawal transactions
-  async getAllWithdrawalTransactions(): Promise<Transaction[]> {
+  async getAllCommissionTransactions(): Promise<Transaction[]> {
     return await this.transactionRepo.find({
       where: {
-        transaction_type: ETransactionType.WITHDRAWAL,
+        transaction_type: ETransactionType.COMMISSION,
       },
       relations: {
         user: true,
       },
     });
   }
+  async getUserCommissionBalance(userProfileId:number){
+    
+  }
+  
 }

@@ -6,7 +6,8 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { UsersModule } from './users/users.module';
 import { RolesModule } from './roles/roles.module';
 import { TransactionsModule } from './transactions/transactions.module';
-import { CommissionModule } from './commission/commission.module';
+import { TransactionConfigModule } from './transaction-config/transaction-config.module';
+
 
 @Global()
 @Module({
@@ -28,7 +29,8 @@ import { CommissionModule } from './commission/commission.module';
     UsersModule,
     RolesModule,
     TransactionsModule,
-    CommissionModule,
+    TransactionConfigModule,
+   
   ],
   controllers: [AppController],
   providers: [AppService],
