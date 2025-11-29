@@ -3,6 +3,8 @@ import {
   CreateDateColumn,
   Entity,
   JoinColumn,
+  ManyToMany,
+  ManyToOne,
   OneToMany,
   OneToOne,
   PrimaryGeneratedColumn,
@@ -23,13 +25,29 @@ export class UserProfile {
   email?: string;
   @Column()
   phone_number: string;
+
   @Column({ type: Date })
   date_of_birth: Date;
+
+  @Column({ default: false })
+  isSubscribed: boolean;
+
   @Column({ unique: true })
   userId: number;
+
   @OneToOne(() => Users, (user) => user.profile)
   @JoinColumn({ name: 'userId' })
   user: Users;
+
+  @OneToMany(() => UserProfile, (profile) => profile.referredBy)
+  referrals: UserProfile[];
+
+  @ManyToOne(() => UserProfile, (profile) => profile.referrals)
+  @JoinColumn({ name: 'referrerId' })
+  referredBy?: UserProfile;
+
+  @Column({ nullable: true })
+  referrerId?: number;
 
   @OneToMany(() => Transaction, (transaction) => transaction.user)
   allTransactions: Transaction[];
