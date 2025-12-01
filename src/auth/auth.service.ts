@@ -24,7 +24,7 @@ export class AuthService {
   //sign jwt token
   private async signJwtToken(
     username: string,
-    id: number,
+    id: string,
     roles: RolesEnum[],
     secret: string,
     expiry: string,
@@ -40,7 +40,7 @@ export class AuthService {
   //sign access token
   private async signAccessToken(
     username: string,
-    id: number,
+    id: string,
     roles: RolesEnum[],
   ) {
     return await this.signJwtToken(
@@ -54,7 +54,7 @@ export class AuthService {
   //sign refresh token
   private async signRefreshToken(
     username: string,
-    id: number,
+    id: string,
     roles: RolesEnum[],
   ) {
     return await this.signJwtToken(

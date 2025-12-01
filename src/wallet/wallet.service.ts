@@ -16,7 +16,7 @@ export class WalletService {
   ) {}
 
   //create wallet
-  async createWallet(userProfileId: number): Promise<Wallet> {
+  async createWallet(userProfileId: string): Promise<Wallet> {
     const wallet = await this.walletRepo.findOne({
       where: {
         userProfileId: userProfileId,
@@ -34,7 +34,7 @@ export class WalletService {
     return await this.walletRepo.save(newWallet);
   }
   //get wallet by id
-  async getWalletById(id: number): Promise<Wallet> {
+  async getWalletById(id: string): Promise<Wallet> {
     const wallet = await this.walletRepo.findOne({
       where: {
         id,
@@ -49,7 +49,7 @@ export class WalletService {
     return wallet;
   }
   //get wallet by user profile id
-  async getWalletByUserProfileId(userProfileId: number): Promise<Wallet> {
+  async getWalletByUserProfileId(userProfileId: string): Promise<Wallet> {
     const profile =
       await this.userProfileService.getUserByProfileId(userProfileId);
     const wallet = await this.walletRepo.findOne({
@@ -71,7 +71,7 @@ export class WalletService {
   }
   //update balance
   async updateWalletBalance(
-    userProfileId: number,
+    userProfileId: string,
     amount: number,
   ): Promise<Wallet> {
     const wallet = await this.getWalletByUserProfileId(userProfileId);

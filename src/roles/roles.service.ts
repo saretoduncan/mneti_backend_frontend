@@ -50,7 +50,7 @@ export class RolesService {
     return roles;
   }
   //get role by id
-  async rolesById(id: number) {
+  async rolesById(id: string) {
     const role = await this.roleRepo.findOne({
       where: {
         id: id,
@@ -62,7 +62,7 @@ export class RolesService {
     return role;
   }
   //update role
-  async updateRole(role: RolesEnum, id: number) {
+  async updateRole(role: RolesEnum, id: string) {
     const getRoleById = await this.roleRepo.findOne({
       where: {
         id,

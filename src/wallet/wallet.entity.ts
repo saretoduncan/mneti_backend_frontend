@@ -1,5 +1,7 @@
+import { nanoid } from 'nanoid';
 import { UserProfile } from 'src/users/userProfile.entity';
 import {
+  BeforeInsert,
   Column,
   CreateDateColumn,
   Entity,
@@ -12,11 +14,15 @@ import {
 @Entity('wallet')
 export class Wallet {
   @PrimaryGeneratedColumn()
-  id: number;
+  id: string;
+  @BeforeInsert()
+  generateId() {
+    this.id = nanoid(12);
+  }
   @Column({ default: 0 })
   balance: number;
   @Column({ unique: true })
-  userProfileId: number;
+  userProfileId: string;
   @OneToOne(() => UserProfile, (profile) => profile.wallet)
   @JoinColumn({ name: 'userProfileId' })
   userProfile: UserProfile;

@@ -98,8 +98,8 @@ export class RegisterUserRequestDto {
 }
 
 export class UserResponseDto extends OmitType(Users, ['password'] as const) {
-  @ApiProperty({ example: 1, description: 'Unique user ID' })
-  id: number;
+  @ApiProperty({ example: "djfkeri384fijoearf", description: 'Unique user ID' })
+  id: string;
 
   @ApiProperty({ example: 'john_doe', description: 'Unique username' })
   username: string;

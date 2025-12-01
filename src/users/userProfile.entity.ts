@@ -1,4 +1,5 @@
 import {
+  BeforeInsert,
   Column,
   CreateDateColumn,
   Entity,
@@ -13,11 +14,12 @@ import {
 import { Users } from './user.entity';
 import { Transaction } from 'src/transactions/transactions.entity';
 import { Wallet } from 'src/wallet/wallet.entity';
+import { nanoid } from 'nanoid';
 
 @Entity('user_profile')
 export class UserProfile {
-  @PrimaryGeneratedColumn()
-  id: number;
+  @PrimaryGeneratedColumn('uuid')
+  id: string;
   @Column()
   firstName: string;
   @Column()
@@ -34,7 +36,7 @@ export class UserProfile {
   isSubscribed: boolean;
 
   @Column({ unique: true })
-  userId: number;
+  userId: string;
 
   @OneToOne(() => Users, (user) => user.profile)
   @JoinColumn({ name: 'userId' })
@@ -51,7 +53,7 @@ export class UserProfile {
   referredBy?: UserProfile;
 
   @Column({ nullable: true })
-  referrerId?: number;
+  referrerId?: string;
 
   @OneToMany(() => Transaction, (transaction) => transaction.userProfile)
   allTransactions: Transaction[];

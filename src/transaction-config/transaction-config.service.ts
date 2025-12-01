@@ -30,7 +30,7 @@ export class TransactionConfigService {
     }
     const newTx = this.transactionConfigRepo.create({
       name: configName,
-      amount:amount
+      amount: amount,
     });
     return await this.transactionConfigRepo.save(newTx);
   }
@@ -60,7 +60,7 @@ export class TransactionConfigService {
     );
     return tx;
   }
-  async findTxById(id: number): Promise<TransactionConfig> {
+  async findTxById(id: string): Promise<TransactionConfig> {
     const tx = await this.transactionConfigRepo.findOne({
       where: {
         id: id,
@@ -85,7 +85,7 @@ export class TransactionConfigService {
   }
 
   async updateTxConfigAmount(
-    id: number,
+    id: string,
     amount: number,
   ): Promise<TransactionConfig> {
     const tx = await this.findTxById(id);

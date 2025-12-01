@@ -26,7 +26,7 @@ export class TransactionsService {
     transaction_type: ETransactionType,
   ) {}
   //get transaction by id
-  async getTransactionById(id: number): Promise<Transaction> {
+  async getTransactionById(id: string): Promise<Transaction> {
     const getTransaction = await this.transactionRepo.findOne({
       where: {
         id,

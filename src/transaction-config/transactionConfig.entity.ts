@@ -1,4 +1,6 @@
+import { nanoid } from 'nanoid';
 import {
+  BeforeInsert,
   Column,
   CreateDateColumn,
   Entity,
@@ -8,8 +10,8 @@ import {
 
 @Entity('transaction_config')
 export class TransactionConfig {
-  @PrimaryGeneratedColumn()
-  id: number;
+  @PrimaryGeneratedColumn('uuid')
+  id: string;
   @Column()
   name: ETransactionConfigEnum;
   @Column()

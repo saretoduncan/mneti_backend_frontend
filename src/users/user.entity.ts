@@ -1,5 +1,6 @@
 import { Role } from 'src/roles/roles.entity';
 import {
+  BeforeInsert,
   Column,
   CreateDateColumn,
   Entity,
@@ -13,11 +14,13 @@ import {
 } from 'typeorm';
 import { UserProfile } from './userProfile.entity';
 import { Transaction } from 'src/transactions/transactions.entity';
+import { nanoid } from 'nanoid';
 
 @Entity({ name: 'users' })
 export class Users {
-  @PrimaryGeneratedColumn()
-  id: number;
+ @PrimaryGeneratedColumn('uuid')
+  id: string;
+ 
   @Column({ unique: true })
   username: string;
   @Column()

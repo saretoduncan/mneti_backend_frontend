@@ -1,10 +1,17 @@
+import { nanoid } from 'nanoid';
 import { Users } from 'src/users/user.entity';
-import { Column, Entity, ManyToMany, PrimaryGeneratedColumn } from 'typeorm';
+import {
+  BeforeInsert,
+  Column,
+  Entity,
+  ManyToMany,
+  PrimaryGeneratedColumn,
+} from 'typeorm';
 
 @Entity({ name: 'roles' })
 export class Role {
-  @PrimaryGeneratedColumn()
-  id: number;
+  @PrimaryGeneratedColumn('uuid')
+  id: string;
   @Column({ unique: true })
   name: RolesEnum;
 
@@ -13,6 +20,6 @@ export class Role {
 }
 
 export enum RolesEnum {
-  ADMIN="ADMIN",
-  USER="USER",
+  ADMIN = 'ADMIN',
+  USER = 'USER',
 }

@@ -1,6 +1,8 @@
+import { nanoid } from 'nanoid';
 import { Users } from 'src/users/user.entity';
 import { UserProfile } from 'src/users/userProfile.entity';
 import {
+  BeforeInsert,
   Column,
   CreateDateColumn,
   Entity,
@@ -12,8 +14,8 @@ import {
 
 @Entity()
 export class Transaction {
-  @PrimaryGeneratedColumn()
-  id: number;
+  @PrimaryGeneratedColumn('uuid')
+  id: string;
   @Column()
   amount: number;
   @Column({ unique: true })

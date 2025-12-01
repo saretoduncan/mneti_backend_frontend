@@ -14,6 +14,7 @@ import {
   ICreateUserInterface,
   IUpdateUserProfileInterface,
 } from 'src/interfaces/IUserInterface';
+import { formatPhoneNumber } from 'src/common/methods/index.methods';
 @Injectable()
 export class UsersService {
   constructor(
@@ -50,13 +51,25 @@ export class UsersService {
       where: {
         referralCode: userInfo.referredByCode,
       },
-      
+      relations: {
+        profile: true,
+      },
     });
 
     if (!referredByUser) {
       throw new BadRequestException('Please use a valid Referral code');
     }
+    const phoneNumber = formatPhoneNumber(userInfo.phone_number);
 
+    const isNumberTaken = await this.userProfileRepo.findAndCount({
+      where: {
+        phone_number: phoneNumber,
+      },
+    });
+    console.log;
+    if (isNumberTaken[1] > 0) {
+      throw new BadRequestException('Phone number already in use');
+    }
     const user = await this.createUser(userInfo.email, userInfo.password);
 
     const userProfile = this.userProfileRepo.create({
@@ -65,7 +78,7 @@ export class UsersService {
       email: userInfo.email,
       phone_number: userInfo.phone_number,
       date_of_birth: userInfo.date_of_birth,
-      referredBy: referredByUser,
+      referredBy: referredByUser.profile,
       user: user,
     });
     await this.userProfileRepo.save(userProfile);
@@ -89,7 +102,7 @@ export class UsersService {
     return user;
   }
   //get user by id
-  async getUserById(userId: number) {
+  async getUserById(userId: string) {
     const user = await this.userRepo.findOne({
       where: {
         id: userId,
@@ -108,7 +121,7 @@ export class UsersService {
     return user;
   }
   //get user by profileId
-  async getUserByProfileId(profileId: number) {
+  async getUserByProfileId(profileId: string) {
     const user = await this.userProfileRepo.findOne({
       where: {
         id: profileId,
@@ -139,7 +152,7 @@ export class UsersService {
   //update user profile
   async updateUserProfile(
     userInfo: IUpdateUserProfileInterface,
-    userId: number,
+    userId: string,
   ) {
     const user = await this.getUserById(userId);
     if (!user.profile) {
@@ -166,7 +179,7 @@ export class UsersService {
     return await this.userProfileRepo.save(profile);
   }
   //update password
-  async updatePassword(password: string, userId: number) {
+  async updatePassword(password: string, userId: string) {
     const user = await this.getUserById(userId);
     const hashedPassword = await bcrypt.hash(password, 10);
     user.password = hashedPassword;
@@ -174,7 +187,7 @@ export class UsersService {
     return;
   }
   //user subscribe
-  async setIsSubscribed(userProfileId: number) {
+  async setIsSubscribed(userProfileId: string) {
     const user = await this.userProfileRepo.findOne({
       where: {
         id: userProfileId,
