@@ -22,14 +22,14 @@ export class Users {
   username: string;
   @Column()
   password: string;
-
+  @Column({ unique: true, nullable: true })
+  referralCode: string;
   @OneToOne(() => UserProfile, (profile) => profile.user, { cascade: true })
   profile?: UserProfile;
 
   @ManyToMany(() => Role, (role) => role.users, { cascade: true })
   @JoinTable()
   roles: Role[];
-  
 
   @CreateDateColumn({ type: 'timestamp' })
   createdAt: Date;

@@ -7,7 +7,7 @@ export interface ICreateUserInterface {
   email: string;
   phone_number: string;
   date_of_birth: Date;
-  referredById: number;
+  referredByCode: string;
   password: string;
 }
 

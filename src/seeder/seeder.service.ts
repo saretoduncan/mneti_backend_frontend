@@ -8,11 +8,15 @@ import {
 import { Users } from 'src/users/user.entity';
 import { Repository } from 'typeorm';
 import * as bcypt from 'bcrypt';
+import { nanoid } from 'nanoid';
+import { UserProfile } from 'src/users/userProfile.entity';
 @Injectable()
 export class SeederService {
   private readonly logger = new Logger(SeederService.name);
   constructor(
     @InjectRepository(Users) private readonly usersRepo: Repository<Users>,
+    @InjectRepository(UserProfile)
+    private readonly profileRepo: Repository<UserProfile>,
     @InjectRepository(Role) private readonly roleRepo: Repository<Role>,
     @InjectRepository(TransactionConfig)
     private readonly transactionConfigRepo: Repository<TransactionConfig>,
@@ -70,14 +74,27 @@ export class SeederService {
       this.logger.log('Admin role is not found');
       return;
     }
+
     if (!admin) {
       const password = process.env.ADMIN_PASSWORD!!;
       const hashedPassword = await bcypt.hash(password, 10);
+      const referralCode = nanoid(12);
+      const email = 'techguymoi@gmail.com';
       const newAdmin = this.usersRepo.create({
-        username: 'Admin',
+        username: email,
         password: hashedPassword,
+        referralCode: referralCode,
         roles: [AdminRole],
       });
+      const newAdminProfile = this.profileRepo.create({
+        firstName: 'tech',
+        lastName: 'guy',
+        email: email,
+        date_of_birth: new Date('1997-1-1'),
+        phone_number: '254715691186',
+        isSubscribed:true
+      });
+      newAdmin.profile = newAdminProfile;
       await this.usersRepo.save(newAdmin);
       this.logger.log('successfully created Admin User');
     }

@@ -5,7 +5,10 @@ import { Users } from 'src/users/user.entity';
 import { UsersService } from 'src/users/users.service';
 import { Repository } from 'typeorm';
 import { compare, hash } from 'bcrypt';
-import { TUsersWithNoPassword } from 'src/interfaces/IUserInterface';
+import {
+  ICreateUserInterface,
+  TUsersWithNoPassword,
+} from 'src/interfaces/IUserInterface';
 import { RolesEnum } from 'src/roles/roles.entity';
 import { Response } from 'express';
 import { UserResponseDto } from 'src/dtos/auth.dto';
@@ -98,6 +101,11 @@ export class AuthService {
 
     return user;
   }
+  //remove password
+  private omitPassword(user: Users) {
+    const { password, ...rest } = user;
+    return rest;
+  }
   //login user
   async login(
     user: TUsersWithNoPassword,
@@ -114,8 +122,28 @@ export class AuthService {
       user.roles.map((role) => role.name),
     );
     this.setCookie(res, refresherToken);
-    const { password, ...userWithNoPass } = user;
 
-    return { accessToken, ...userWithNoPass };
+    return { ...this.omitPassword(user), accessToken };
+  }
+  //register user
+  async registerUser(
+    user: ICreateUserInterface,
+    res: Response,
+  ): Promise<UserResponseDto> {
+    const newUser = await this.userService.createUserWithProfile(user);
+    const [accessToken, refreshToken] = await Promise.all([
+      this.signAccessToken(
+        newUser.username,
+        newUser.id,
+        newUser.roles.map((role) => role.name),
+      ),
+      this.signRefreshToken(
+        newUser.username,
+        newUser.id,
+        newUser.roles.map((role) => role.name),
+      ),
+    ]);
+    this.setCookie(res, refreshToken);
+    return { ...this.omitPassword(newUser), accessToken };
   }
 }

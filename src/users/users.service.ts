@@ -45,18 +45,16 @@ export class UsersService {
   }
 
   //create with profile
-  async createUserWithProfile(userInfo: ICreateUserInterface) {
-    const referredByUser = await this.userProfileRepo.findOne({
+  async createUserWithProfile(userInfo: ICreateUserInterface): Promise<Users> {
+    const referredByUser = await this.userRepo.findOne({
       where: {
-        id: userInfo.referredById,
+        referralCode: userInfo.referredByCode,
       },
-      relations: {
-        referrals: true,
-      },
+      
     });
 
     if (!referredByUser) {
-      throw new BadRequestException('Please use a valid Referrer not found');
+      throw new BadRequestException('Please use a valid Referral code');
     }
 
     const user = await this.createUser(userInfo.email, userInfo.password);
@@ -70,7 +68,8 @@ export class UsersService {
       referredBy: referredByUser,
       user: user,
     });
-    return await this.userProfileRepo.save(userProfile);
+    await this.userProfileRepo.save(userProfile);
+    return await this.getUserById(user.id);
   }
   //get user by username
   async getUserByUsername(username: string): Promise<Users> {
