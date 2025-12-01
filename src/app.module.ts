@@ -10,6 +10,7 @@ import { TransactionConfigModule } from './transaction-config/transaction-config
 import { WalletModule } from './wallet/wallet.module';
 import { DatabaseModule } from './database/database.module';
 import { SeederModule } from './seeder/seeder.module';
+import { AuthModule } from './auth/auth.module';
 
 @Global()
 @Module({
@@ -26,6 +27,7 @@ import { SeederModule } from './seeder/seeder.module';
     WalletModule,
     DatabaseModule,
     SeederModule,
+    AuthModule,
   ],
   controllers: [AppController],
   providers: [AppService],

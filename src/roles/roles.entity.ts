@@ -13,6 +13,6 @@ export class Role {
 }
 
 export enum RolesEnum {
-  ADMIN,
-  USER,
+  ADMIN="ADMIN",
+  USER="USER",
 }

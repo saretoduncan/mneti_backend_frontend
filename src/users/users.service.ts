@@ -43,6 +43,7 @@ export class UsersService {
     const savedUser = await this.userRepo.save(newUser);
     return await this.getUserById(savedUser.id);
   }
+
   //create with profile
   async createUserWithProfile(userInfo: ICreateUserInterface) {
     const referredByUser = await this.userProfileRepo.findOne({
@@ -70,6 +71,23 @@ export class UsersService {
       user: user,
     });
     return await this.userProfileRepo.save(userProfile);
+  }
+  //get user by username
+  async getUserByUsername(username: string): Promise<Users> {
+    const user = await this.userRepo.findOne({
+      where: {
+        username,
+      },
+      relations: {
+        profile: true,
+        roles: true,
+      },
+    });
+    if (!user) {
+      throw new NotFoundException('user not found');
+    }
+
+    return user;
   }
   //get user by id
   async getUserById(userId: number) {
@@ -166,9 +184,8 @@ export class UsersService {
         allTransactions: true,
       },
     });
-    if(!user){
-        throw new NotFoundException("user not found")
+    if (!user) {
+      throw new NotFoundException('user not found');
     }
-   
   }
 }

@@ -1,3 +1,6 @@
+import { Users } from "src/users/user.entity";
+import { Request } from "express";
+
 export interface ICreateUserInterface {
   firstName: string;
   lastName: string;
@@ -15,3 +18,8 @@ export interface IUpdateUserProfileInterface {
   phone_number?: string;
   date_of_birth?: Date;
 }
+
+export interface IRequestWithUser extends Request{
+   user:TUsersWithNoPassword
+}
+export type TUsersWithNoPassword = Users
