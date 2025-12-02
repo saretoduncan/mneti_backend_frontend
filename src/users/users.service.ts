@@ -13,7 +13,7 @@ import { UserProfile } from './userProfile.entity';
 import {
   ICreateUserInterface,
   IUpdateUserProfileInterface,
-} from 'src/interfaces/IUserInterface';
+} from 'src/common/interfaces/IUserInterface';
 import { formatPhoneNumber } from 'src/common/methods/index.methods';
 @Injectable()
 export class UsersService {

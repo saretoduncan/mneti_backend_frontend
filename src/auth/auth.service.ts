@@ -7,11 +7,12 @@ import { Repository } from 'typeorm';
 import { compare, hash } from 'bcrypt';
 import {
   ICreateUserInterface,
+  IRequestWithJwtPayload,
   TUsersWithNoPassword,
-} from 'src/interfaces/IUserInterface';
+} from 'src/common/interfaces/IUserInterface';
 import { RolesEnum } from 'src/roles/roles.entity';
 import { Response } from 'express';
-import { UserResponseDto } from 'src/dtos/auth.dto';
+import { RefreshTokenResponseDto, UserResponseDto } from 'src/dtos/auth.dto';
 import { plainToInstance } from 'class-transformer';
 @Injectable()
 export class AuthService {
@@ -145,5 +146,24 @@ export class AuthService {
     ]);
     this.setCookie(res, refreshToken);
     return { ...this.omitPassword(newUser), accessToken };
+  }
+  //refresh token
+  async refreshToken(
+    user: IRequestWithJwtPayload,
+  ): Promise<RefreshTokenResponseDto> {
+    const token = await this.signAccessToken(
+      user.user.username,
+      user.user.sub,
+      user.user.roles,
+    );
+    return { accessToken: token };
+  }
+
+  //forgot password
+
+  //logout
+  async logout(res: Response) {
+    res.clearCookie(process.env.REFRESH_TOKEN_KEY!!);
+    return
   }
 }

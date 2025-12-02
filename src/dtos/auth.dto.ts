@@ -1,6 +1,13 @@
 import { ApiProperty, OmitType } from '@nestjs/swagger';
 import { Exclude } from 'class-transformer';
-import { IsNotEmpty, IsString, Matches, MaxLength, minLength, MinLength } from 'class-validator';
+import {
+  IsNotEmpty,
+  IsString,
+  Matches,
+  MaxLength,
+  minLength,
+  MinLength,
+} from 'class-validator';
 import { Match } from 'src/common/decorators/match.decorator';
 import { Role } from 'src/roles/roles.entity';
 import { Users } from 'src/users/user.entity';
@@ -52,8 +59,8 @@ export class RegisterUserRequestDto {
     description: 'User phone number',
   })
   @IsString()
-  @MinLength(10,{message:'Please enter a valid number'})
-  @MaxLength(12, {message:'Please enter a valid number'})
+  @MinLength(10, { message: 'Please enter a valid number' })
+  @MaxLength(12, { message: 'Please enter a valid number' })
   @Matches(/^\d+$/, { message: 'Phone number must contain numbers only' })
   @IsNotEmpty()
   phone_number: string;
@@ -98,7 +105,7 @@ export class RegisterUserRequestDto {
 }
 
 export class UserResponseDto extends OmitType(Users, ['password'] as const) {
-  @ApiProperty({ example: "djfkeri384fijoearf", description: 'Unique user ID' })
+  @ApiProperty({ example: 'djfkeri384fijoearf', description: 'Unique user ID' })
   id: string;
 
   @ApiProperty({ example: 'john_doe', description: 'Unique username' })
@@ -129,6 +136,14 @@ export class UserResponseDto extends OmitType(Users, ['password'] as const) {
   })
   updatedAt: Date;
 
+  @ApiProperty({
+    example: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...',
+    description: 'JWT access token for authentication',
+  })
+  accessToken: string;
+}
+
+export class RefreshTokenResponseDto {
   @ApiProperty({
     example: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...',
     description: 'JWT access token for authentication',

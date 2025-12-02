@@ -2,17 +2,18 @@ import {
   Controller,
   Post,
   UseGuards,
-  Request,
+
   Res,
   HttpCode,
   HttpStatus,
   Body,
+  Req,
 } from '@nestjs/common';
 import { ApiTags, ApiOperation, ApiResponse, ApiBody } from '@nestjs/swagger';
 import { localGuard } from './guards/index.guards';
 import { AuthService } from './auth.service';
-import type { IRequestWithUser } from '../interfaces/IUserInterface';
-import type { Response } from 'express';
+import type { IRequestWithUser } from '../common/interfaces/IUserInterface';
+import type { Response, Request } from 'express';
 import {
   LoginRequestDto,
   RegisterUserRequestDto,
@@ -42,7 +43,7 @@ export class AuthController {
   @UseGuards(localGuard)
   @Post('login')
   async login(
-    @Request() req: IRequestWithUser,
+    @Req() req: IRequestWithUser,
     @Res({ passthrough: true }) res: Response,
   ): Promise<UserResponseDto> {
     return await this.authService.login(req.user, res);
@@ -57,7 +58,8 @@ export class AuthController {
   })
   @ApiResponse({
     status: 201,
-    description: 'User successfully registered. Returns user data with access token.',
+    description:
+      'User successfully registered. Returns user data with access token.',
     type: UserResponseDto,
   })
   @ApiResponse({
@@ -69,6 +71,13 @@ export class AuthController {
     @Body() body: RegisterUserRequestDto,
     @Res({ passthrough: true }) res: Response,
   ): Promise<UserResponseDto> {
-    return await this.authService.registerUser(body, res)
+    return await this.authService.registerUser(body, res);
+  }
+
+  //logout
+  @Post('logout')
+  logout( @Req() request:Request ,@Res({ passthrough: true }) res: Response) {
+   
+    return this.authService.logout(res);
   }
 }

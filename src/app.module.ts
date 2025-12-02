@@ -11,6 +11,7 @@ import { WalletModule } from './wallet/wallet.module';
 import { DatabaseModule } from './database/database.module';
 import { SeederModule } from './seeder/seeder.module';
 import { AuthModule } from './auth/auth.module';
+import { MailModule } from './mail/mail.module';
 
 @Global()
 @Module({
@@ -28,6 +29,7 @@ import { AuthModule } from './auth/auth.module';
     DatabaseModule,
     SeederModule,
     AuthModule,
+    MailModule,
   ],
   controllers: [AppController],
   providers: [AppService],
