@@ -16,7 +16,7 @@ const Password_input_compnent: React.FC<IPassworInput> = ({
   const handlePasswordSeen = () => setPasswordSeen(!isPasswordSeen);
   return (
     <div className="relative">
-      <Input
+      <Input 
         placeholder={placeholder ?? "password"}
         type={isPasswordSeen ? "text" : "password"}
         required

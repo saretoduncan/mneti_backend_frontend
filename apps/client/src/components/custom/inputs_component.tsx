@@ -7,12 +7,14 @@ interface IInputProps {
   type?: string;
   placeholder: string;
   err?: string;
+  maxLength?: number;
 }
 const Inputs_component: React.FC<IInputProps> = ({
   label,
   type,
   placeholder,
   err,
+  maxLength,
   ...props
 }) => {
   return (
@@ -22,7 +24,9 @@ const Inputs_component: React.FC<IInputProps> = ({
         type={type ?? "text"}
         placeholder={placeholder}
         required
+         maxLength={maxLength ?? undefined}
         {...props}
+       
       />
       {err && <Input_error_component message={err} />}
     </div>

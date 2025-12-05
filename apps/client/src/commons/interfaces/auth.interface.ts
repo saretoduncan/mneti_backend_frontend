@@ -2,18 +2,18 @@ export interface ILoginRequest {
   username: string;
   password: string;
 }
-export interface UserResponse {
+export interface IUserResponse {
   id: string;
   username: string;
   referralCode: string;
-  profile: Profile;
-  roles: Role[];
+  profile: IProfile;
+  roles: IRole[];
   createdAt: string;
   updatedAt: string;
   accessToken: string;
 }
 
-export interface Profile {
+export interface IProfile {
   id: string;
   firstName: string;
   lastName: string;
@@ -27,7 +27,18 @@ export interface Profile {
   updatedAt: string;
 }
 
-export interface Role {
+export interface IRole {
   id: string;
   name: string;
+}
+ //register user
+export interface IRegisterUserDto {
+  firstName: string;
+  lastName: string;
+  email: string;
+  phone_number: string;
+  date_of_birth: string;
+  referredByCode: string;
+  password: string;
+  confirmPassword: string;
 }
