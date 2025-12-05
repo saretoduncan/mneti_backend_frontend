@@ -1,3 +1,4 @@
+import type { AxiosError } from "axios";
 import type { LucideIcon } from "lucide-react";
 
 export type TNavType = {
@@ -5,4 +6,10 @@ export type TNavType = {
   url: string;
   icon?: LucideIcon;
 };
-export type TNavTitle= "LOGIN_PAGE"| "REGISTER" |"DASHBOARD"|"PROFILE"
+export type TNavTitle = "LOGIN_PAGE" | "REGISTER" | "DASHBOARD" | "PROFILE";
+
+export interface IApiError {
+  error: string;
+  message: string;
+}
+export type TApiError = AxiosError<IApiError>;
