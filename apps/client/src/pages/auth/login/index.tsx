@@ -3,6 +3,7 @@ import {
   Card,
   CardContent,
   CardDescription,
+  CardFooter,
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
@@ -18,6 +19,7 @@ import { login } from "@/api/auth";
 import { Loader } from "lucide-react";
 import type { TApiError } from "@/commons/types";
 import { toast } from "sonner";
+import { NavLinkData } from "@/commons/navlinkData";
 
 const Login = () => {
   const {
@@ -118,6 +120,15 @@ const Login = () => {
               </div>
             </form>
           </CardContent>
+          <CardFooter className="flex justify-center gap-1">
+            <small>Don't have an account? </small>
+            <Link
+              to={NavLinkData.REGISTER.url}
+              className="text-primary text-sm underline"
+            >
+              Register
+            </Link>
+          </CardFooter>
         </Card>
       </div>
     </div>
