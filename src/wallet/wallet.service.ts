@@ -30,6 +30,7 @@ export class WalletService {
     }
     const newWallet = this.walletRepo.create({
       balance: 0,
+      userProfileId: userProfileId,
     });
     return await this.walletRepo.save(newWallet);
   }

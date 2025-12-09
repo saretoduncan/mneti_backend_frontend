@@ -13,17 +13,13 @@ import {
 
 @Entity('wallet')
 export class Wallet {
-  @PrimaryGeneratedColumn()
+  @PrimaryGeneratedColumn('uuid')
   id: string;
-  @BeforeInsert()
-  generateId() {
-    this.id = nanoid(12);
-  }
   @Column({ default: 0 })
   balance: number;
   @Column({ unique: true })
   userProfileId: string;
-  @OneToOne(() => UserProfile, (profile) => profile.wallet)
+  @OneToOne(() => UserProfile, (profile) => profile.wallet, {onUpdate:"CASCADE"})
   @JoinColumn({ name: 'userProfileId' })
   userProfile: UserProfile;
   @CreateDateColumn({ type: 'timestamp' })
