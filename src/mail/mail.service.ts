@@ -1,14 +1,16 @@
 import { Injectable } from '@nestjs/common';
-import Mailjet from 'node-mailjet';
+import  mailjet from 'node-mailjet';
+
+
 
 @Injectable()
 export class MailService {
-  private mailjet: Mailjet;
+  private mailjet: mailjet;
   // private apiKey = process.env.MAIL_JET_API_KEY
   // private apiSecret = process.env.MAIL_JET_API_SECRET
 
   constructor() {
-    this.mailjet = new Mailjet({
+    this.mailjet = new mailjet({
       apiKey: process.env.MAIL_JET_API_KEY,
       apiSecret: process.env.MAIL_JET_API_SECRET,
     });
@@ -35,3 +37,5 @@ export class MailService {
     });
   }
 }
+
+

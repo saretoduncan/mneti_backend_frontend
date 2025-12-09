@@ -12,6 +12,8 @@ import { DatabaseModule } from './database/database.module';
 import { SeederModule } from './seeder/seeder.module';
 import { AuthModule } from './auth/auth.module';
 import { MailModule } from './mail/mail.module';
+import { MpesaModule } from './mpesa/mpesa.module';
+import { RedisModule } from './redis/redis.module';
 
 @Global()
 @Module({
@@ -30,6 +32,8 @@ import { MailModule } from './mail/mail.module';
     SeederModule,
     AuthModule,
     MailModule,
+    MpesaModule,
+    RedisModule,
   ],
   controllers: [AppController],
   providers: [AppService],

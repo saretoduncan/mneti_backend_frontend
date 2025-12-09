@@ -18,8 +18,8 @@ export class Transaction {
   id: string;
   @Column()
   amount: number;
-  @Column({ unique: true })
-  mpesa_transaction_id: string;
+  @Column()
+  mpesaTransactionId: string;
   @Column()
   phone_number: string;
   @Column()
@@ -36,6 +36,6 @@ export class Transaction {
 }
 
 export enum ETransactionType {
-  SUBSCRIPTION,
-  COMMISSION,
+  SUBSCRIPTION="SUBSCRIPTION",
+  COMMISSION="COMMISSION",
 }

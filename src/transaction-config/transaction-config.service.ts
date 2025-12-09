@@ -92,4 +92,28 @@ export class TransactionConfigService {
     tx.amount = amount;
     return await this.transactionConfigRepo.save(tx);
   }
+
+  async updateSubscriptionAmount(amount: number): Promise<TransactionConfig> {
+    const tx = await this.findTxtByName(
+      ETransactionConfigEnum.SUBSCRIPTION_COST,
+    );
+    tx.amount = amount;
+    return await this.transactionConfigRepo.save(tx);
+  }
+  async updateReferalCommissionAmount(
+    amount: number,
+  ): Promise<TransactionConfig> {
+    const tx = await this.findTxtByName(
+      ETransactionConfigEnum.REFERAL_COMMISSION,
+    );
+    tx.amount = amount;
+    return await this.transactionConfigRepo.save(tx);
+  }
+  async updateMinimumWalletAmount(amount: number): Promise<TransactionConfig> {
+    const tx = await this.findTxtByName(
+      ETransactionConfigEnum.MINIMUM_WALLET_WITHRAWAL,
+    );
+    tx.amount = amount;
+    return await this.transactionConfigRepo.save(tx);
+  }
 }
