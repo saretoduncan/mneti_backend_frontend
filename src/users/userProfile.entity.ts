@@ -38,11 +38,11 @@ export class UserProfile {
   @Column({ unique: true })
   userId: string;
 
-  @OneToOne(() => Users, (user) => user.profile)
+  @OneToOne(() => Users, (user) => user.profile, {onUpdate:"CASCADE"})
   @JoinColumn({ name: 'userId' })
   user: Users;
 
-  @OneToOne(() => Wallet, (wallet) => wallet.userProfile)
+  @OneToOne(() => Wallet, (wallet) => wallet.userProfile, {cascade:true})
   wallet: Wallet;
 
   @OneToMany(() => UserProfile, (profile) => profile.referredBy)
@@ -55,7 +55,7 @@ export class UserProfile {
   @Column({ nullable: true })
   referrerId?: string;
 
-  @OneToMany(() => Transaction, (transaction) => transaction.userProfile)
+  @OneToMany(() => Transaction, (transaction) => transaction.userProfile, {cascade:true})
   allTransactions: Transaction[];
 
   @CreateDateColumn({ type: 'timestamp' })
