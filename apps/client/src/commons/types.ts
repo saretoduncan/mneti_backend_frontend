@@ -6,7 +6,7 @@ export type TNavType = {
   url: string;
   icon?: LucideIcon;
 };
-export type TNavTitle = "LOGIN_PAGE" | "REGISTER" | "DASHBOARD" | "PROFILE";
+export type TNavTitle = "LOGIN_PAGE" | "REGISTER" | "DASHBOARD" | "PROFILE"|'SUBSCRIPTION';
 
 export interface IApiError {
   error: string;

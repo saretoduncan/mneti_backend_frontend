@@ -6,13 +6,21 @@ import type {
 import { api } from "./client.api";
 
 export const login = async (data: ILoginRequest): Promise<IUserResponse> => {
-  const res = await api.post("/auth/login", data);
+  try {
+    const res = await api.post("/auth/login", data);
 
-  return res.data;
+    return res.data;
+  } catch (e: any) {
+    throw new Error(e);
+  }
 };
 export const signup = async (
   data: IRegisterUserDto
 ): Promise<IUserResponse> => {
-  const res = await api.post("/auth/register", data);
-  return res.data;
+  try {
+    const res = await api.post("/auth/register", data);
+    return res.data;
+  } catch (err: any) {
+    throw new Error(err);
+  }
 };
