@@ -1,13 +1,9 @@
-import { Toaster } from "sonner";
-import PublicRouters from "./routers/publicRouters";
-
+import PublicRouters from "./routers/mainRoutes";
 
 function App() {
   return (
     <div className="min-h-screen grid">
       <PublicRouters />
-
-      <Toaster position="top-right" richColors />
     </div>
   );
 }

@@ -40,8 +40,8 @@ const onSubmit:SubmitHandler<{phoneNumber:string}>=(data)=>{
 }
 
   return (
-    <div className="flex-1 grid items-center">
-      <div className="px-4 grid gap-4 max-w-sm mx-auto">
+    <div className="">
+      <div className="px-4 pt-10 grid gap-4 max-w-sm mx-auto">
         <div>
           <h2 className="text-center font-bold text-2xl capitalize">
             Welcome🤗 Here is your <span className="text-primary">Package</span>

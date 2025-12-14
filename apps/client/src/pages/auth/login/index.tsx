@@ -8,31 +8,38 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { Controller, useForm, type SubmitHandler } from "react-hook-form";
-import { data, Link } from "react-router";
+import { Link } from "react-router";
 import logo from "@/assets/net_logo.png";
 import Inputs_component from "@/components/custom/inputs_component";
 import Password_input_compnent from "@/components/custom/password_input_compnent";
 import { Label } from "@/components/ui/label";
 import type { ILoginRequest } from "@/commons/interfaces/auth.interface";
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { login } from "@/api/auth";
 import { Loader } from "lucide-react";
 import type { TApiError } from "@/commons/types";
 import { toast } from "sonner";
 import { NavLinkData } from "@/commons/navlinkData";
+import useAuthHook from "@/hooks/useAuthHook";
+import LoadingButton from "@/components/custom/buttons/loadingButton";
 
 const Login = () => {
+  const { loginUser } = useAuthHook();
   const {
     control,
     formState: { errors },
     reset,
     handleSubmit,
   } = useForm<ILoginRequest>();
+  const queryClient = useQueryClient();
   const { mutate, isPending } = useMutation({
     mutationFn: login,
     onSuccess: (data) => {
       reset();
-      console.log(data);
+
+      queryClient.setQueryData(["user"], data);
+
+      loginUser(data.id, data.accessToken, data.profile.isSubscribed);
     },
     onError: (err: TApiError) => {
       err.response && toast.error(err.response.data.message);
@@ -104,18 +111,11 @@ const Login = () => {
                 </div>
 
                 <div>
-                  <Button className="w-full" type="submit">
-                    {isPending ? (
-                      <>
-                        <span>Authenticating </span>
-                        <span>
-                          <Loader className="animate-spin" />
-                        </span>
-                      </>
-                    ) : (
-                      <span>Login</span>
-                    )}
-                  </Button>
+                  <LoadingButton
+                    isPending={isPending}
+                    title={"Login"}
+                    loadingTitle={"Authenticating"}
+                  />
                 </div>
               </div>
             </form>

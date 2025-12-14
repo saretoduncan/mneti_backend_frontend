@@ -13,13 +13,17 @@ import type { IRegisterUserDto } from "@/commons/interfaces/auth.interface";
 import Password_input_compnent from "@/components/custom/password_input_compnent";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { signup } from "@/api/auth";
 import type { TApiError } from "@/commons/types";
 import { toast } from "sonner";
 import { Link } from "react-router";
 import { NavLinkData } from "@/commons/navlinkData";
+import useAuthHook from "@/hooks/useAuthHook";
+import LoadingButton from "@/components/custom/buttons/loadingButton";
 const Register = () => {
+  const queryClient = useQueryClient();
+  const { loginUser } = useAuthHook();
   const {
     control,
     handleSubmit,
@@ -31,7 +35,8 @@ const Register = () => {
     mutationFn: signup,
     onSuccess: (data) => {
       reset();
-      console.log(data);
+      queryClient.setQueryData(["user"], data);
+      loginUser(data.id, data.accessToken, data.profile.isSubscribed);
     },
     onError: (err: TApiError) => {
       err.response && toast.error(err.response.data.message);
@@ -230,12 +235,19 @@ const Register = () => {
                 />
               </div>
 
-              <Button>Register</Button>
+              <LoadingButton
+                isPending={false}
+                title={"Register"}
+                loadingTitle={"Registering"}
+              />
             </form>
           </CardContent>
           <CardFooter className="flex justify-center gap-1">
             <small>Already have an account? </small>{" "}
-            <Link to={NavLinkData.LOGIN_PAGE.url} className="text-primary text-sm underline">
+            <Link
+              to={NavLinkData.LOGIN_PAGE.url}
+              className="text-primary text-sm underline"
+            >
               Login
             </Link>
           </CardFooter>
