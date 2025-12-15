@@ -31,6 +31,7 @@ const processQueue = (error: any, token: string | null = null) => {
 apiWithInterceptor.interceptors.response.use(
   (response) => response,
   async (error: AxiosError) => {
+   
     const originalRequest = error.config as AxiosRequestConfig & {
       _retry?: boolean;
     };
@@ -41,7 +42,7 @@ apiWithInterceptor.interceptors.response.use(
       store.dispatch(logout());
       return Promise.reject(error);
     }
-    if (isTokenError && !originalRequest._retry) {
+    if (isTokenError && !originalRequest._retry ) {
       originalRequest._retry = true;
       if (isRefreshing) {
        
@@ -80,5 +81,6 @@ apiWithInterceptor.interceptors.response.use(
         isRefreshing = false;
       }
     }
+    return Promise.reject(error)
   }
 );

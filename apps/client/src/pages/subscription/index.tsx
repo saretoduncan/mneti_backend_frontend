@@ -1,6 +1,8 @@
 import { subscribe } from "@/api/transaction";
 import type { IUserResponse } from "@/commons/interfaces/auth.interface";
+import { NavLinkData } from "@/commons/navlinkData";
 import type { TApiError } from "@/commons/types";
+import LoadingButton from "@/components/custom/buttons/loadingButton";
 import Input_error_component from "@/components/custom/input_error_component";
 import {
   AlertDialog,
@@ -19,6 +21,7 @@ import {
 } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import useAuthHook from "@/hooks/useAuthHook";
 import { AlertDialogCancel } from "@radix-ui/react-alert-dialog";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 
@@ -29,6 +32,7 @@ import { toast } from "sonner";
 
 const SubscriptionPage = () => {
   const [isDialogOpen, setDialogOpen] = useState(false);
+  const { accessToken } = useAuthHook();
   const queryClient = useQueryClient();
   const user: IUserResponse | undefined = queryClient.getQueryData(["user"]);
   const navigate = useNavigate();
@@ -40,7 +44,7 @@ const SubscriptionPage = () => {
   const handleDiaologOpen = () => {
     setDialogOpen(true);
   };
-  const {} = useMutation({
+  const { isPending, mutate } = useMutation({
     mutationFn: async (variables: {
       accessToken: string;
       phoneNumber: string;
@@ -53,13 +57,16 @@ const SubscriptionPage = () => {
       );
     },
     onSuccess: (data) => {
+      console.log(data);
       if (user) {
         user.profile.isSubscribed = true;
         queryClient.setQueryData(["user"], user);
+        navigate(NavLinkData.DASHBOARD.url, { replace: true });
       }
     },
     onError: (e) => {
       const err = e as TApiError;
+      // console.log(err)
       err.response && toast.error(err.response.data.message);
     },
   });
@@ -68,7 +75,11 @@ const SubscriptionPage = () => {
   };
 
   const onSubmit: SubmitHandler<{ phoneNumber: string }> = (data) => {
-    console.log(data);
+    mutate({
+      accessToken: accessToken ?? "",
+      phoneNumber: data.phoneNumber,
+      userProfileId: user!!.profile.id,
+    });
   };
 
   return (
@@ -140,9 +151,11 @@ const SubscriptionPage = () => {
                         />
                       )}
                     </div>
-                    <Button className="w-full" type={"submit"}>
-                      Submit
-                    </Button>
+                    <LoadingButton
+                      isPending={isPending}
+                      title={"Pay"}
+                      loadingTitle={"Processing"}
+                    />
                   </form>
                   <AlertDialogCancel>Cancel</AlertDialogCancel>
                 </AlertDialogContent>
