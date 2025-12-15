@@ -11,9 +11,9 @@ import Inputs_component from "@/components/custom/inputs_component";
 import { Controller, useForm, type SubmitHandler } from "react-hook-form";
 import type { IRegisterUserDto } from "@/commons/interfaces/auth.interface";
 import Password_input_compnent from "@/components/custom/password_input_compnent";
-import { Button } from "@/components/ui/button";
+
 import { Label } from "@/components/ui/label";
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { signup } from "@/api/auth";
 import type { TApiError } from "@/commons/types";
 import { toast } from "sonner";

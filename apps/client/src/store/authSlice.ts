@@ -1,5 +1,4 @@
 import { USER_ID } from "@/commons/constants";
-import type { IUserResponse } from "@/commons/interfaces/auth.interface";
 import { clearStorage, getFromStorage, saveToStorage } from "@/lib/storage";
 import { createSlice, type PayloadAction } from "@reduxjs/toolkit";
 

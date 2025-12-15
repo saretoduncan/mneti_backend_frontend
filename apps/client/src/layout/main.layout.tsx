@@ -1,9 +1,8 @@
-import { NavLinkData } from "@/commons/navlinkData";
 import type { TApiError } from "@/commons/types";
 
 import useAuthHook from "@/hooks/useAuthHook";
 import useUserHook from "@/hooks/useUserHook";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { useMutation } from "@tanstack/react-query";
 import { Bell, LogOut } from "lucide-react";
 
 import { useEffect } from "react";
@@ -11,7 +10,6 @@ import { Link, Outlet } from "react-router";
 import { toast } from "sonner";
 import logo from "@/assets/net_logo.png";
 import { logout } from "@/api/auth";
-import type { IUserResponse } from "@/commons/interfaces/auth.interface";
 
 const MainLayout = () => {
   const { logoutUser, userId, updateSubscribed } = useAuthHook();

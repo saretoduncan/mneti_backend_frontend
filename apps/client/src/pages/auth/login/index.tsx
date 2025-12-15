@@ -1,4 +1,3 @@
-import { Button } from "@/components/ui/button";
 import {
   Card,
   CardContent,
@@ -16,7 +15,6 @@ import { Label } from "@/components/ui/label";
 import type { ILoginRequest } from "@/commons/interfaces/auth.interface";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { login } from "@/api/auth";
-import { Loader } from "lucide-react";
 import type { TApiError } from "@/commons/types";
 import { toast } from "sonner";
 import { NavLinkData } from "@/commons/navlinkData";

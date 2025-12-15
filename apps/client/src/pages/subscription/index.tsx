@@ -1,3 +1,6 @@
+import { subscribe } from "@/api/transaction";
+import type { IUserResponse } from "@/commons/interfaces/auth.interface";
+import type { TApiError } from "@/commons/types";
 import Input_error_component from "@/components/custom/input_error_component";
 import {
   AlertDialog,
@@ -17,12 +20,18 @@ import {
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { AlertDialogCancel } from "@radix-ui/react-alert-dialog";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 
 import { useState } from "react";
 import { useForm, type SubmitHandler } from "react-hook-form";
+import { useNavigate } from "react-router";
+import { toast } from "sonner";
 
 const SubscriptionPage = () => {
   const [isDialogOpen, setDialogOpen] = useState(false);
+  const queryClient = useQueryClient();
+  const user: IUserResponse | undefined = queryClient.getQueryData(["user"]);
+  const navigate = useNavigate();
   const {
     handleSubmit,
     formState: { errors },
@@ -31,13 +40,36 @@ const SubscriptionPage = () => {
   const handleDiaologOpen = () => {
     setDialogOpen(true);
   };
+  const {} = useMutation({
+    mutationFn: async (variables: {
+      accessToken: string;
+      phoneNumber: string;
+      userProfileId: string;
+    }) => {
+      await subscribe(
+        variables.phoneNumber,
+        variables.accessToken,
+        variables.userProfileId
+      );
+    },
+    onSuccess: (data) => {
+      if (user) {
+        user.profile.isSubscribed = true;
+        queryClient.setQueryData(["user"], user);
+      }
+    },
+    onError: (e) => {
+      const err = e as TApiError;
+      err.response && toast.error(err.response.data.message);
+    },
+  });
   const handleDialogClose = () => {
     setDialogOpen(false);
   };
-  
-const onSubmit:SubmitHandler<{phoneNumber:string}>=(data)=>{
-  console.log(data)
-}
+
+  const onSubmit: SubmitHandler<{ phoneNumber: string }> = (data) => {
+    console.log(data);
+  };
 
   return (
     <div className="">
@@ -83,7 +115,10 @@ const onSubmit:SubmitHandler<{phoneNumber:string}>=(data)=>{
                       for payment
                     </AlertDialogDescription>
                   </AlertDialogHeader>
-                  <form onSubmit={handleSubmit(onSubmit)} className="grid gap-2">
+                  <form
+                    onSubmit={handleSubmit(onSubmit)}
+                    className="grid gap-2"
+                  >
                     <div className="grid gap-1">
                       <Label>Phone Number</Label>
                       <Input
@@ -99,7 +134,11 @@ const onSubmit:SubmitHandler<{phoneNumber:string}>=(data)=>{
                           },
                         })}
                       />
-                      {errors.phoneNumber?.message && <Input_error_component message={errors.phoneNumber.message}/>}
+                      {errors.phoneNumber?.message && (
+                        <Input_error_component
+                          message={errors.phoneNumber.message}
+                        />
+                      )}
                     </div>
                     <Button className="w-full" type={"submit"}>
                       Submit
