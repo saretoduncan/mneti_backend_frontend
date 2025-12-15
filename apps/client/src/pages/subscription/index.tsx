@@ -56,8 +56,7 @@ const SubscriptionPage = () => {
         variables.userProfileId
       );
     },
-    onSuccess: (data) => {
-      console.log(data);
+    onSuccess: () => {
       if (user) {
         user.profile.isSubscribed = true;
         queryClient.setQueryData(["user"], user);

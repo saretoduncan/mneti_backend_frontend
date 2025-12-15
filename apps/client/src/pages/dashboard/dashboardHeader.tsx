@@ -8,7 +8,7 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import useUserHook from "@/hooks/useUserHook";
-import { ArrowDownRight, Copy } from "lucide-react";
+import { ArrowDownRight, Copy, Wallet } from "lucide-react";
 import { toast } from "sonner";
 
 const DashboardHeader = () => {
@@ -34,7 +34,7 @@ const DashboardHeader = () => {
           <section>
             <Card>
               <CardHeader>
-                <CardTitle>Balance</CardTitle>
+                <CardTitle className="flex items-end gap-2"><Wallet/><span>Balance</span></CardTitle>
                 <CardDescription>Your wallet balance</CardDescription>
               </CardHeader>
               <CardContent>
@@ -74,18 +74,18 @@ const DashboardHeader = () => {
             every subscription
           </p>
           <div className="rounded-lg w-full border-2 p-2 flex justify-between items-center">
-            <p>
+            <small>
               {window.origin +
                 NavLinkData.REGISTER.url +
-                "/" +
+                "?ref=" +
                 user?.referralCode}
-            </p>
+            </small>
             <Button
               onClick={() =>
                 handleCopy(
                   window.origin +
                     NavLinkData.REGISTER.url +
-                    "/" +
+                    "?ref=" +
                     user?.referralCode
                 )
               }
