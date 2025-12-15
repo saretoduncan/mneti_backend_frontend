@@ -6,6 +6,7 @@ import Login from "@/pages/auth/login";
 import Register from "@/pages/auth/register";
 import DashboardPage from "@/pages/dashboard";
 import SubscriptionPage from "@/pages/subscription";
+import Withdraw from "@/pages/withdraw";
 
 import { Route, Routes } from "react-router";
 
@@ -22,6 +23,7 @@ const PublicRouters = () => {
           element={<SubscriptionPage />}
         />
         <Route path={NavLinkData.DASHBOARD.url} element={<DashboardPage />} />
+        <Route path={NavLinkData.WITHDRWAL.url} element={<Withdraw />} />
       </Route>
     </Routes>
   );

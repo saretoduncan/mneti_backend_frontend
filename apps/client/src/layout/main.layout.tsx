@@ -57,7 +57,7 @@ const MainLayout = () => {
           </div>
         </div>
       </nav>
-      <div>{isLoading ? "loading .." : <Outlet />}</div>
+      <div className="flex-1">{isLoading ? "loading .." : <Outlet />}</div>
     </div>
   );
 };

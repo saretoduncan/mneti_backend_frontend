@@ -26,9 +26,7 @@ const useAuthHook = () => {
     if (userId && user) {
       if (!user.profile.isSubscribed) {
         navigate(NavLinkData.SUBSCRIPTION.url);
-      } else {
-        navigate(NavLinkData.DASHBOARD.url, { replace: true });
-      }
+      } 
     }
   }, [user, userId]);
   const loginUser = useCallback(

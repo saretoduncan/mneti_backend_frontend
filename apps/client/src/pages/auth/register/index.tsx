@@ -17,11 +17,14 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { signup } from "@/api/auth";
 import type { TApiError } from "@/commons/types";
 import { toast } from "sonner";
-import { Link } from "react-router";
+import { Link, useSearchParams } from "react-router";
 import { NavLinkData } from "@/commons/navlinkData";
 import useAuthHook from "@/hooks/useAuthHook";
 import LoadingButton from "@/components/custom/buttons/loadingButton";
 const Register = () => {
+  const [searchParams] = useSearchParams();
+  const refCode = searchParams.get("ref");
+
   const queryClient = useQueryClient();
   const { loginUser } = useAuthHook();
   const {
@@ -221,7 +224,7 @@ const Register = () => {
 
                 <Controller
                   control={control}
-                  defaultValue=""
+                  defaultValue={refCode ?? ""}
                   name={"referredByCode"}
                   rules={{ required: "Field cannot be emtpy" }}
                   render={({ field }) => (
@@ -236,7 +239,7 @@ const Register = () => {
               </div>
 
               <LoadingButton
-                isPending={false}
+                isPending={isPending}
                 title={"Register"}
                 loadingTitle={"Registering"}
               />

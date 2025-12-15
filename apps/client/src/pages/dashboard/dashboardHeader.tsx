@@ -1,4 +1,11 @@
 import { NavLinkData } from "@/commons/navlinkData";
+import {
+  AlertDialog,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogHeader,
+  AlertDialogTitle,
+} from "@/components/ui/alert-dialog";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -7,12 +14,16 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
+import useTransactions from "@/hooks/useTransactions";
 import useUserHook from "@/hooks/useUserHook";
+
 import { ArrowDownRight, Copy, Wallet } from "lucide-react";
+import { Link } from "react-router";
 import { toast } from "sonner";
 
 const DashboardHeader = () => {
   const { user } = useUserHook();
+  const { minimumBalance, totalReferals, balance } = useTransactions();
   const handleCopy = async (text: string) => {
     try {
       await navigator.clipboard.writeText(text);
@@ -34,18 +45,26 @@ const DashboardHeader = () => {
           <section>
             <Card>
               <CardHeader>
-                <CardTitle className="flex items-end gap-2"><Wallet/><span>Balance</span></CardTitle>
+                <CardTitle className="flex items-end gap-2">
+                  <Wallet />
+                  <span>Balance</span>
+                </CardTitle>
                 <CardDescription>Your wallet balance</CardDescription>
               </CardHeader>
               <CardContent>
                 <div className="flex justify-between">
                   <p>
                     <span>KES</span>{" "}
-                    <span className="font-bold text-xl">0.00</span>
+                    <span className="font-bold text-xl">
+                      {balance?.balance}
+                    </span>
                   </p>
-                  <Button disabled>
+                  <Link
+                    to={NavLinkData.WITHDRWAL.url}
+                    className="flex bg-primary text-primary-foreground rounded-lg px-2 py-2 gap-1 "
+                  >
                     Withdraw <ArrowDownRight />
-                  </Button>
+                  </Link>
                 </div>
               </CardContent>
             </Card>
@@ -59,7 +78,9 @@ const DashboardHeader = () => {
               <CardContent>
                 <div>
                   <p className="">
-                    <span className="font-bold text-xl">0</span>{" "}
+                    <span className="font-bold text-xl">
+                      {totalReferals?.totalReferals}
+                    </span>{" "}
                     <span>users</span>
                   </p>
                 </div>
@@ -94,7 +115,7 @@ const DashboardHeader = () => {
             </Button>
           </div>
         </section>
-      </div>
+      </div>{" "}
     </div>
   );
 };

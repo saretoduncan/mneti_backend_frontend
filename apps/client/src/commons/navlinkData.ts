@@ -26,4 +26,9 @@ export const NavLinkData: Record<TNavTitle, TNavType> = {
     url: "/subscription",
     icon: undefined,
   },
+  WITHDRWAL: {
+    title: "Withdrawal",
+    url: "/withdraw",
+    icon: undefined
+  }
 };
