@@ -6,9 +6,8 @@ import axios, {
   type AxiosResponse,
 } from "axios";
 
-
 export const api = axios.create({
-  baseURL: "http://localhost:3000/api/v1",
+  baseURL: "https://mnetapi.flexpesaexchange.co.ke/api/v1",
   withCredentials: true,
 });
 
@@ -31,21 +30,18 @@ const processQueue = (error: any, token: string | null = null) => {
 apiWithInterceptor.interceptors.response.use(
   (response) => response,
   async (error: AxiosError) => {
-   
     const originalRequest = error.config as AxiosRequestConfig & {
       _retry?: boolean;
     };
-   
+
     const isTokenError = error.response?.status === 401;
     if (isTokenError && originalRequest.url?.includes("/auth/refreshToken")) {
-     
       store.dispatch(logout());
       return Promise.reject(error);
     }
-    if (isTokenError && !originalRequest._retry ) {
+    if (isTokenError && !originalRequest._retry) {
       originalRequest._retry = true;
       if (isRefreshing) {
-       
         return new Promise((resolve, reject) => {
           failedQueue.push({
             resolve: (token: string) => {
@@ -61,12 +57,13 @@ apiWithInterceptor.interceptors.response.use(
       }
       isRefreshing = true;
       try {
-        const refreshResponse:AxiosResponse<{ accessToken: string }>= await api.post("/auth/refreshToken");
+        const refreshResponse: AxiosResponse<{ accessToken: string }> =
+          await api.post("/auth/refreshToken");
         const newToken = refreshResponse.data.accessToken;
         apiWithInterceptor.defaults.headers.common[
           "Authorization"
         ] = `Bearer ${newToken}`;
-        store.dispatch(setAccessToken({accessToken:newToken}))
+        store.dispatch(setAccessToken({ accessToken: newToken }));
         processQueue(null, newToken);
         originalRequest.headers = {
           ...originalRequest.headers,
@@ -81,6 +78,6 @@ apiWithInterceptor.interceptors.response.use(
         isRefreshing = false;
       }
     }
-    return Promise.reject(error)
+    return Promise.reject(error);
   }
 );
